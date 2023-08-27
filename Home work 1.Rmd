@@ -1,0 +1,65 @@
+---
+title: "HOME WORK 1"
+author: "RUTH CHIKA UZOKA"
+date: "2023-08-26"
+output: pdf_document
+
+****QUESTION 1
+
+WHY DOES THIS CODE NOT WORK?
+
+my_variable <- 10
+my_varlable
+
+Look carefully!(This may seem like an exercise in pointlessness, but training your brain to notice even the tiniest difference will pay off when programming.)
+```{r }
+#ANSWER 1-
+
+my_variable <- 10
+my_variable
+
+#initially,The code did not work;-REASON- because of the letter "L" inbetween R and A in the world VARIABLE on the second line. In other words, Variable was mis-spelt as (varlable)and i corrected it on the answer space as VARIABLE before running it and it ran correctly.
+
+```
+****QUESTION 2
+
+Tweak each of the following R commands so that they run correctly:
+  
+library(tidyverse)
+
+
+ggplot(dota =mpg)+
+  geom_point(mapping = aes(x = displ, y = hwy))
+  
+fliter(mpg, cyl = 8)
+filter(diamond, carat > 3)
+
+
+```{r}
+#ANSWER 2
+library(tidyverse)
+
+ggplot(data =mpg)+
+'geom_point(mpg = aes(x= disp, y= hwy))"
+
+filter(mpg, cyl ==8)
+filter(diamonds,carat > 3)
+
+#correction 1-I changed the ggplot function -Dota(incorrect spelling)to data.
+
+#correction 2- I had to use the single quotation mark at the start of the geom_point(enablings layers of plot)and a double quotation mark at the end to run the geom command on R.
+
+#correction 3-I figured there is no such function as Fliter on R but there is an existing function as Filter. Hence the change of the word from FLITER TO Filter Also,the equalisation sign on R, as a comparison operator needs to be doubled to give a functional value. so, i had to double it to run.
+
+#correction 4-Since carat is a word for unit measurement of diamonds, I had to add (S) which was initially missing to correct the word diamonds before running it.
+```
+*****QUESTION 3
+
+Press Alt + shift+ k. what happens? How can you get to the same place using the menus?
+
+```{r}
+#ANSWER 3
+After pressing alt+shift+k keys simultaneously,it poped up the system short cut keys..The same function can be called up on R when we go on the "TOOLS"icon in the the top left corner on R studio. it is actually the 10th feature on the R menu,click and go to the "keyboard shortcuts help" option from the drop down.It  gives the same result but different methods to navigate, especially on R. 
+
+
+```
