@@ -1,0 +1,191 @@
+---
+title: "HOME WORK"
+author: "RUTH CHIKA UZOKA"
+date: "2023-09-09"
+output: pdf_document
+---
+Home work 2:Part I: Loading and Making Sense of Data
+
+Question 1- Use the function read.csv() to read the CSV file “applications.csv” and use the assignment operator <- to store the data in an object called applications. (Do not forget to set the working directory first.) Provide the R code you used
+
+Answer-
+
+```{r }
+
+setwd('C:/Users/USER/Downloads') 
+read.csv("applications.csv")
+applications <- read.csv("applications.csv")
+applications
+
+```
+Question 2-Use the function head() to view the first few observations of the dataset. Provide the R code you used
+
+Answer-
+
+```{r }
+head(applications)
+
+```
+
+Question 3-What does each observation in this dataset represent? (5 points)
+
+Answer-The observation in this dataset has 4 variables and is represented as -Job_id(Job identification)
+Criminal
+Race
+Call
+
+Question 4-Please substantively interpret the first observation in the dataset. (5 points)
+
+Answer- The overall dataset shows an inquiry into the the casual effect and probability of being called back for a job interview despite having a criminal record. The focus from the description of the variables is on Vacant positions, manner of disposition of applicants, level of discrimination or bias in the evaluation process and feedback(in form of call back or drop of applicants)
+
+ From the first dataset, i observed the first applicant has zero criminal record, he is of the white race and he got a call back after his first interview.
+ 
+ 
+Question 5-For each variable in the dataset, please identify the type of variable (character vs. numeric binary vs. numeric non-binary) 
+
+Answer-Pertinent to note is that CHARACTER-Are descriptions done in alpha numerics or text.
+
+NUMERIC BINARY-Are numbers and can take two values that are either (0) or one(1)
+
+NUMERIC NON BINARY-Are numbers of varying range from 0 to infinity.
+
+From the data set,Variable Job_id is a numeric non binary because it contains numbers of varying range
+
+variable CRIMINAL-is a numeric binary because it ranges from 0-1
+
+variable RACE- is a character because it was done in wordings(text)
+
+variable CALL-is a numeric binary because the numbers are between 0 and 1
+
+Question 6-How many observations are in the dataset? In other words, how many job applications were part of this experiment? (Hint: the function dim() might be helpful here.) Provide the R code you
+used (without the output) and provide the substantive answer. 
+
+ANSWER- dim(applications)
+ 
+```{r }
+dim(applications)
+```
+The number of job applications in the dataset are 696 and the R code used is dim(applications). We used the dim function to call up the dataset object(applications) The dim represents a dimensional functions for the job applications.
+
+Part II: Computing and Interpreting Means
+
+```{r }
+applications <- read.csv("applications.csv")
+
+applications_white <- applications[applications$race=="white",]
+applications_white
+
+```
+Question 1- Use the function dim() to find how many observations are in the original dataframe applications and how many observations are in the new dataframe applications_white. Provide a full sentence with what you learn from computing these two numbers.
+
+Answer-
+
+```{r }
+dim(applications)
+dim(applications_white)
+
+```
+The functions returned two values for the original and new data frame. Reason is we have two dimensions, which is the rows and column for each. 4 is the total of 4 columns. From the original data frame, 696 was the total of job applicants so we have applications from 696 participants. for both white and black with 300 being whites in the new data frame, the total blacks would be 396.Therefore n= 696, n=300 respectively.
+
+
+Question 2-Use the function mean() to calculate the average of the variable criminal in the dataframe applications_white. Please provide a full substantive interpretation of what this average means.
+Make sure to provide the unit of measurement.
+
+
+Answer-
+
+```{r }
+mean(applications_white[,"criminal"])
+or
+mean(applications_white$criminal)
+
+```
+From my observation- The value from the variable CRIMINAL is binary(0.5 x100)50% and it goes to show that just 50% of white have a criminal record from this study.
+
+
+Question 3-Use the function mean() to calculate the average of the variable call in the dataframe applications_white. Please provide a full substantive interpretation of what this average means. Make
+sure to provide the unit of measurement. 
+
+Answer-
+```{r }
+mean(applications_white[,"call"])
+
+```
+From my observation,This is a binary(0.25 x100)Therefore, Just 25% of white got a call back after the interview from this study.
+
+
+Question 4-If we wanted to estimate the average causal effect of having a criminal record on the probability of getting a call back for a job interview for the white applicants: (10 points)
+a. What would be the treatment variable? Please just provide the name of the variable in the applications_white dataframe
+
+b. What would be the outcome variable? Please just provide the name of the variable in the
+applications_white dataframe
+
+Answer-The treatment variable would be-Criminal
+The Outcome variable would be-Call
+
+Question 5-. In this analysis: (10 points)
+a. What would be the treatment group?
+b. What would be the control group?
+
+Answer-Observation for treatment group(CRIMINAL) for which Xi=1
+Observation for outcome group(CALL) for which Xi=0
+
+```{r }
+runif(applications_white$criminal==0,1)
+runif(applications_white$call==1,0)
+
+
+```
+
+Part III: Estimating an Average Causal Effect
+
+
+```{r }
+applications <- read.csv("applications.csv")
+head(applications)
+
+```
+Question 1. Considering that the dataset we are analyzing comes from a randomized experiment, what can we compute to estimate the average causal effect of having a criminal record on the number of new (or repaired) drinking call facilities? Please provide the name of the estimator.
+
+
+Answer- The difference in proportions estimator was used here.
+
+```{r }
+library(readr)
+library(dplyr)
+applications <- read.csv("applications.csv")
+applications=applications[applications$race=="white",]
+
+applications%>%group_by(criminal)%>%summarize(n_call=sum(call),total_calls=n())%>%mutate(proportion=round((n_call/total_calls)*100,2))
+
+```
+Question 2-In the dataset about the white applicants, what is the probability of receiving a call back for a job interview among the job applications with a criminal record? Please answer with a full sentence.
+
+Answer- 16.7
+The probabilty of receiving a call back with a criminal record is 17%-Among the white applicants, the binary for likely being called back with a crimal record is 17%
+
+Question 3-In the dataset about the white applicants, what is the probability of receiving a call back for a job interview among the job applications without a criminal record? Please answer with a full sentence.
+
+Answer-34
+51 applicants without a criminal record, have 34 percent chances of being called back again for a job interview. 
+
+Question 4-What is the estimated average causal effect of having a criminal record on the probability of receiving a call back for a job interview? Please provide a full substantive answer (make sure to
+include the assumption, why the assumption is reasonable, the treatment, the outcome, as well as the direction, size, and unit of measurement of the average treatment effect)
+```{r }
+fit=glm(call~criminal,data=applications,family="binomial")
+summary(fit)
+
+1-exp(fit$coefficient[2])
+
+
+mean(applications_white$call[applications_white$criminal==1])-
+  mean(applications_white$call[applications_white$criminal==0])
+
+```
+Answer 4- 0.6117647 
+Observation-if the person is a criminal it will be 61% times less likely to receive a call back.
+
+The treatment is criminal records and the outcome is 61% times, they are less likely to be called back for an interview.
+
+The unit measurement is binary as it was times by 100.
+
