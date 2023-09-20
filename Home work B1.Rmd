@@ -1,0 +1,350 @@
+---
+title: "HOME WORK(B1)"
+author: "RUTH CHIKA UZOKA"
+date: "2023-09-18"
+output: pdf_document
+---
+## Question 1
+
+Within each experminent, compute the proportion of users assigned separately for the *Social Influence* and *Independent* condition. Summarize the results as a table of proportions for each experiment.
+
+In **Experiment 1**, the proportion of users assigned to the *Social Influence* condition was `r round(p_exp1[2], digits=3)`, while `r round(p_exp1[1], digits=3)` where assigned to the *Independent* condition. Similarly, in **Experiment 2**, the proportion of users assigned to the *Social Influence* condition where `r round(p_exp2[2], digits=3)`, while `r round(p_exp2[1], digits=3)` where assigned to the *Independent* condition. In both experiments, about 2/3 are assigned to the *Social Influence* condition.
+
+ANSWER-
+```{r }
+users1 <- read.csv("C:/Users/HP/Downloads/users1.csv")
+   
+
+prop_exp1 <- prop.table(table(users1$world_id))
+
+prop_exp1
+
+prop_exp2 <- prop.table(table(users2$world_id))
+prop_exp2
+
+```
+##The proportions for each experiments are as follows-
+
+For experiment 1;33% was alloted to Social Influence approximately and 67% was assigned to the Independence Condition.
+
+For experiment 2;32% was assigned to Social influence and 68% to Independence conditions.
+
+
+
+## Question 2
+
+Within each experiment, compute the *average number of downloads per user* separately for the treatment and control conditions. Note that the number of users is different between the conditions. Comment on the differences across the two conditions within each experiment. Repeat the same using the number of times each song was listened to.
+
+
+```{r qnts1_downloads }
+##Average number of downloads per user-
+
+###EXP 1(GROUP 1)
+
+total_exp1_suc <- sum(songs1$listen_soc)
+total_dloads_cus <- sum(songs1$down_soc)
+
+###(GROUP 2)
+
+total_ex1a_pla <- sum(songs1$listen_indep)
+total_dlads_des <- sum(songs1$down_indep)
+
+table(users1$world_id)
+
+##Exp 2(GROUP 1)-
+
+total_ex1_dux <- sum(songs2$listen_soc)
+total_dlods_tys <- sum(songs2$down_soc)
+
+###Group 2
+total_xp1a_hus <- sum(songs2$listen_indep)
+total_dload_gus <- sum(songs2$down_indep)
+
+table(users2$world_id)
+
+###Averages in Exp1-
+total_exp1_suc <- sum(songs1$listen_soc) /702
+total_dloads_cus <- sum(songs1$down_soc) /702
+
+total_ex1a_pla <- sum(songs1$listen_indep) /1441
+total_dlads_des <- sum(songs1$down_indep) /1441
+
+##Averages in Exp 2-
+total_ex1_dux <- sum(songs2$listen_soc)/689
+
+total_dlods_tys <- sum(songs2$down_soc)/689
+
+
+
+total_xp1a_hus <- sum(songs2$listen_indep)/1446
+total_dload_gus <- sum(songs2$down_indep)/1446
+
+
+```
+##Conclusively,The average total of downloads per user in the Social influence(Experiment 1)is lower than group 2 by 0.16. while the number of Listen in the Social influence(Experiment 1,group 1)is higher by 0.24.
+
+In Exp 2-The number of downloads lower is in the Social influence group is lower by 0.034 compared to the Independent(control group)which is higher by 0.342.
+
+This outcome implies that users in the Social influence group has a lower number of downloads than those in the Independent group.
+
+
+
+
+
+## Question 3
+
+We examine the main hypothesis of the study by investigating whether social influence increases the inequality of success in music markets. We measure inequality using the Gini coefficient, which will be covered in Chapter 3 of *QSS* in detail. The Gini coefficient ranges from 0 (most equal) to 1 (most unequal). In the current context, the coefficient is equal to 0 if every song has the same number of downloads whereas it is equal to 1 if all users download the same song. To compute this measure, we can use the `ineq()` function available in the **ineq** package. Within each experiment, compute the Gini coefficient separately for the *Social Influence* and *Independent* conditions. Interpret the results in light of the hypothesis. Repeat the same analysis using the number of times each song was listened to.
+
+```{r }
+library(ineq)
+#Xperiment 1
+
+inq_soc <- Gini(songs1$down_soc)
+print(round(inq_soc, 2))
+
+inq_soc <- Gini(songs1$down_indep)
+print(round(ineq_soc_indep_down, 2))
+
+#Xperiment 2
+inq_soc2 <- Gini(songs2$down_soc)
+
+print(round(ineq_socz, 2))
+
+inq_socz <- Gini(songs2$down_indep)
+print(round(inq_socz,  2))
+
+##Xperiment 1(listen)
+inq_soc <- Gini(songs1$listen_soc)
+print(round(inq_soc, 2))
+
+##Xperiment 2(listen)
+inq_socz <- Gini(songs2$listen_soc)
+
+print(round(inq_socz,  2))
+
+inq_socz <- Gini(songs2$listen_indep)
+print(round(inq_socz, 2))
+
+
+```
+##Summatively,The Gini coefficient for the treatment group(Social influence), both Xperiment 1 and 2 is 0.33 and 0.46 approximately. The outcome of the Independent(Condition group)is 0.19 and 0.24. Interpretatively,more songs were downloaded in the treatment group. The claim that social influence increases the inequality of success in the music market is justified ditto for the number of times each songs were played. 
+
+
+
+## Question 4
+
+Within each experiment, compare the characteristics of users between the *Social Influence* and *Independent* conditions. In particular, compare the mean values of `web`, `visit`, and `purchase` variables. Interpret the results in light of the internal validity of the conclusions you draw for each study in the previous question.
+
+
+Answer-
+```{r}
+library(dplyr)
+##Compute mean for values in Users1 and 2
+users1 <- read.csv("C:/Users/HP/Downloads/users1.csv")
+users2 <- read.csv("C:/Users/HP/Downloads/users2.csv")
+       
+       
+     #)
+  #exp1 
+users1
+
+   users1 %>%
+  group_by(world_id)%>%
+  summarise(
+  mean_web = mean(web, na.rm =TRUE),
+  mean_visit = mean(visit, na.rm = TRUE),
+  mean_purchase =mean(purchase, na.rm =TRUE)
+)
+
+  #exp2
+   users2
+   
+   
+   users2 %>%
+  group_by(world_id)%>%
+     summarise(
+       mean_web = mean(web, na.rm =TRUE),
+       mean_visit = mean(visit, na.rm =TRUE),
+       mean_purchase = mean(purchase, na.rm =TRUE)
+     )
+   
+  
+
+  
+
+```
+
+###Interpretatively,the mean values of the variables is slightly different for each experiments.
+##The social influence(1-exp 1) web-4.50, visit-1.87(approx) purchase(0.720)
+                       (exp 2) web(4.50)  visit(1.96)approx purchase(0.75)approx
+                       
+##The Independent condition(9-exp 1)web(4.50) visit(1.87) purchase(0.721)
+                            (exp 2)web(4.47) visit(1.90) purchase(0.73)
+
+
+
+## Question 5
+
+Compute the difference in the estimated average effect of the *Social Influence* condition on inequality of success between the two experiments. Under the experimental design of this study, does this between-study comparison have as much internal validity as the within-study comparison you conducted in Question 3? Why or Why not? Do the data provide any information regarding the internal validity of this between-study comparison?
+
+Answer-
+```{r}
+library(ineq)
+ineq_down_soc_songs1 <- ineq(songs1$down_soc)
+ineq_down_indep_songs1 <- ineq(songs1$down_indep)
+
+ineq_down_soc_songs2 <- ineq(songs2$down_soc)
+ineq_down_indep_songs2 <- ineq(songs2$down_indep)
+
+xp1effect_d <- ineq_down_soc_songs1-ineq_down_indep_songs1
+xpl2effect_d <- ineq_down_soc_songs2-ineq_down_indep_songs2
+
+
+
+xp1effect_d-xpl2effect_d
+
+xp1effect_d
+xpl2effect_d 
+
+
+###Computation for GRP 2-
+
+ineq_listen_soc_songs1 <- ineq(songs1$listen_soc)
+ineq_listen_indep_songs1 <- ineq(songs1$listen_indep)
+
+ineq_listen_soc_songs2 <- ineq(songs2$listen_soc)
+ineq_listen_indep_songs2 <- ineq(songs2$listen_indep)
+
+xp1effect_d <- ineq_listen_soc_songs1-ineq_listen_indep_songs1
+xpl2effect_d <- ineq_listen_soc_songs2-ineq_listen_indep_songs2
+
+
+
+xp1effect_d-xpl2effect_d
+
+xp1effect_d
+xpl2effect_d 
+
+```
+##
+
+##Summatively,The difference in the estimated average effect of the Social influence condition, both Xperiment 1 and 2 is 0.33 and 0.42. The outcome of the Independent(Condition group)is 0.24 and 0.12,  Interpretatively,more songs were downloaded in the treatment group. Reason is that social influence increases the inequality of success in the music market. The data validity for both questions attests this fact.
+
+###ASSIGNMENT PART 2(INDISCRIMINATE VIOLENCE)
+
+## Question 1
+  
+How many villages were and were not attacked by Russians?  Give the overall breakdown.
+
+Answer-
+```{r}
+village_attack <- table(chechen$fire)
+village_attack
+
+
+```
+
+
+##Appaently, from the outcome 0 villages had no attack and (1) indicates villages that were attached which is 159.
+
+
+## Question 2
+
+Did Russian artillery result in a greater number of deaths in Groznyy compared to the villages outside of Groznyy? Conduct the comparison in terms of the mean and median.
+```{r}
+russian_artillery <- table(chechen$groznyy)
+russian_artillery
+
+mean(chechen$deaths[chechen$groznyy == 1], na.rm = T)
+mean(chechen$deaths[chechen$groznyy == 0], na.rm = T)
+
+
+median(chechen$deaths[chechen$groznyy == 1], na.rm = T)
+median(chechen$deaths[chechen$groznyy == 0], na.rm = T)
+
+```
+##From the result,0= number of villages outside Grozny which results in a total of 298 death records. 1  represents the number of villages inside Groznyy and the number of death record is 20.
+
+
+##Mean of deaths inside Groznyy village = 3.71 while mean of death outside Groznny=1.57
+
+##Median of deaths inside Grozyny=3 while the median of death outside Groznny =0. Comparatively, more deaths were recorded inside Groznny than Outside.
+
+
+## Question 3
+    
+Compare the average number of insurgent attacks after Russian fire for villages hit by artillery fire and those that were not hit. Also, compare the quartiles. Would you conclude that indiscriminate violence reduces insurgent attacks?  Why or why not?
+
+Answer-
+```{r}
+#Post attack comparison-
+##Average computation-
+
+post_attack <- mean(chechen$postattack[chechen$fire == 1], na.rm = T)
+zero_attack <- mean(chechen$postattack[chechen$fire == 0], na.rm = T)
+
+##Quartile computation-
+quart_post_attack <- summary(chechen$postattack[chechen$fire == 1])
+quart_post_attack
+
+
+quart_zero_attack <- summary(chechen$postattack[chechen$fire == 0])
+quart_zero_attack
+
+```
+## Interpretatively,the number of insurgent attacks after Russian fire for villages that was hit  is 1.497 while the number of insurgent attacks after Russian fire for villages that was not hit by the artillery fire is 2.050
+
+## This means that-For the villages hit by artillery fire, the mean number of the insurgent attacks is 1.497 on average while the villages not hit by the artillery fire, the mean is 2.05 approximately. Therefore, on average indiscriminate violence reduces insurgent attacks.
+
+
+## Question 4
+
+What is the difference in the average number of insurgent attacks before Russian artillery fire between the villages that were hit by artillery fire and those that were not?  What does this tell you about the validity of comparison behind the identification strategy used for the previous question?
+
+Answer-
+```{r}
+average_attack <- mean(chechen$preattack[chechen$fire == 1])
+average_attack
+
+average_zero_attack <- mean(chechen$preattack[chechen$fire == 0])
+average_zero_attack
+```
+##From the results,villages hit by artillery fire is 2.113 while the villages not hit by artillery fire is 2.150,this connotes that on average the insurgent attacks before Russian artillery fire in the villages that were not hit by artillery fire is a bit higher than villages hit by artillery fire.
+
+
+## Question 5   
+    
+Create a new variable called `diffattack` by calculating the difference in the number of insurgent attacks before and after the Russian artillery fire. Among the villages shelled by Russians, did the number of insurgent attacks increase after the artillery fire?  Give a substantive interpretation of the result.
+
+```{r}
+str(chechen)
+head(chechen)
+library(dplyr)
+
+chechen <- chechen %>% 
+  
+  mutate (diffattack <- (chechen$postattack - chechen$preattack))
+  
+mean_d_attack_shelled <- mean(chechen$diffattack[chechen$fire == 1], na.rm = TRUE)
+mean_d_attack_shelled 
+
+```
+#The result shows that on average, among the villages shelled by Russians, the insurgent attacks tend to decrease after the fire. 
+
+
+
+## Question 6
+
+Compute the mean difference in the `diffattack` variable between villages shelled and villages not shelled.  Does this analysis support the claim that indiscriminate violence reduces insurgency attacks?  Is the validity of this analysis improved over the analyses you conducted in the previous questions?  Why or why not?Specifically, explain what additional factor this analysis addresses when compared to the analyses conducted in the previous questions.
+
+```{r mean_diff_computation }
+villages_shelled <- mean(chechen$diffattack[chechen$fire == 1]) # -0.6163522
+villages_shelled 
+
+villages_not_shelled <- mean(chechen$diffattack[chechen$fire == 0])#-0.1006289
+villages_not_shelled
+
+villages_shelled - villages_not_shelled #-0.5157233
+```
+#Interpretatively, the result justifies the claim that indiscriminate violence reduces insurgency attacks. The mean difference of -0.5157233 shows that it reduces the attacks. Also,the analysis directly compared the differences between the villages shelled and not shelled which was not addressed in previous question.
+ Conclusively, we can also see the differences in the impact of the Russian shelling in both shelled villages and villages that were not shelled.
