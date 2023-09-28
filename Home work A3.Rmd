@@ -1,0 +1,224 @@
+---
+title: "A3 HOMEWORK"
+author: "UZOKA"
+date: "2023-09-25"
+output: pdf_document
+---
+1. Create a new variable called VEP_turnout defined as the number of ballots officially cast in the
+election divided by the voting eligible population and multiplied by 100. Make sure to store this
+new variable in the existing dataframe named anes by using the character $. (See page 41 of
+DSS, to learn how to use the character $ to identify a variable inside a dataframe not just to
+access it but also to create it.
+
+```{r }
+
+head(`ANES.(1)`)
+
+`ANES.(1)`$Vep_turnout <- `ANES.(1)`$votes/`ANES.(1)`$VEP*100
+head(`ANES.(1)`)
+
+
+```
+2. Use the function head() to look at the first few observations again to ensure that you have
+created the new variable, VEP_turnout, correctly. Is the first value of VEP_turnout what one
+would expect, given the first values of votes and VEP? What is the unit of measurement of
+VEP_turnout?
+
+
+```{r }
+head(`ANES.(1)`)
+head(`ANES.(1)`$Vep_turnout)
+
+
+
+```
+Given that we divided variable votes by Vep multiplied by 100 to get the new variables-Vep_turnout, The unit of measurement for the new variable(Vep_turnout = 54%)
+
+3. Now, create a new variable called VAP_turnout defined as the number of ballots officially cast
+in the election divided by the voting age population and multiplied by 100. Make sure to store
+this new variable in the existing dataframe named anes.
+```{r }
+head(`ANES.(1)`)
+
+`ANES.(1)`$Vap_turnout <- `ANES.(1)`$votes/`ANES.(1)`$VAP*100
+head(`ANES.(1)`)
+
+```
+Given that the computing narrative remains same, The unit of measurement for Vap_turnout =53% approximately.
+
+
+
+4-Use the function head() to look at the first few observations again to ensure that you have
+created the new variable, VAP_turnout, correctly. Is the first value of VAP_turnout what one
+would expect, given the first values of votes and VAP? What is the unit of measurement of
+VAP_turnout? 
+```{r }
+head(`ANES.(1)`)
+head(`ANES.(1)`$Vap_turnout)
+
+
+```
+53% which is a fair turnout rate.
+
+5. Looking at the first few observations of the two new variables, VEP_turnout and VAP_turnout,
+shown by the function head() above, can you tell whether one of them always contains higher
+values than the other? Why do you think that is? Which of the two variables do you think most
+accurately measures turnout? 
+
+Answer-
+From the above computation, The Vep_turnout is more than the Vap_turnout by 2%. Concluively, both form of measurement are valid because while Vep_turnout measures voters eligibilty turnout and tend to be higher, Vap_turnout measures just voters age turnout while some persons in this box maybe ineligible to vote.
+
+
+6. Use the function mean(), to compute the average value of VEP_turnout among the 13 federal
+elections in the dataset. Please provide a full substantive interpretation of what this average
+means and make sure to provide the unit of measurement.
+
+```{r}
+head(`ANES.(1)`)
+Average_Vep_turnout <- mean(`ANES.(1)`$ Vep_turnout)
+Average_Vep_turnout
+```
+This means that on average, the turnout rate for voters eligible population for the 13 federal elections is 48% approximately.
+
+7. Use the function mean(), to compute the average value of ANES_turnout among the 13 federal
+elections in the dataset. Please provide a full substantive interpretation of what this average
+means and make sure to provide the unit of measurement.
+
+```{r}
+head(`ANES.(1)`)
+Average_Anes_turnout <- mean(`ANES.(1)`$ ANES_turnout)
+Average_Anes_turnout
+
+
+
+```
+Approximately, On average, those that attempted the administered Anes(American national election survey) 65% claimed to have participated among the 13 federal elections.
+
+8. When comparing the average value of ANES_turnout to the average value of VEP_turnout, do
+you find any evidence of people lying about their voting behavior?
+
+```{r}
+Average_Anes_turnout <- mean(`ANES.(1)`$ ANES_turnout)
+Average_Anes_turnout
+
+Average_Vep_turnout <- mean(`ANES.(1)`$ Vep_turnout)
+Average_Vep_turnout
+
+```
+
+From the computed result, People in Anes turnout are more than the Vep_turnout by 17%, what this indicates is that people in the Anes_turnout lied about their voting behaviour.
+
+
+******Estimating the Bias in Self-Reported Turnout****
+Part III: Subsetting Variables and Creating Histograms
+
+1. Create a new variable called turnout_bias defined as the difference between ANES_turnout and
+VEP_turnout. Make sure to store this new variable in the existing dataframe named anes by using the $ character. 
+
+```{r}
+
+head(`ANES.(1)`)
+
+`ANES.(1)`$turnout_bias <- `ANES.(1)`$ANES_turnout - `ANES.(1)`$Vep_turnout
+head(`ANES.(1)`)
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+2. Use the function head() to look at the first few observations again to ensure that you have
+created the new variable, turnout_bias, correctly. Is the first value of turnout_bias what one would expect, given the first values of ANES_turnout and VEP_turnout? What is the unit of measurement of turnout_bias? 
+
+```{r}
+head(`ANES.(1)`)
+head(`ANES.(1)`$ turnout_bias)
+
+
+```
+Given that among Anes_turnout is more and the vep_turnout is less, one would expect that the turnout_bias should be much less. The unit of measurement is 17% approximately.
+
+3. Create a visualization of the distribution of the variable turnout_bias. Are all the values positive?
+And, does this variable look normally distributed? 
+
+```{r}
+library(tidyverse)
+head(`ANES.(1)`)
+  
+ 
+           hist(`ANES.(1)`$ turnout_bias, main ="Turnout_bias", col =c("blue","green"))
+
+```
+From the histogram, The numbers are all positive as there is no (- number). Also, the variables are has a negative skew. In other words, the left side of its peak is longer than the right. Hence the distribution is Left skewed.
+
+
+
+
+
+
+4. Let’s investigate whether the bias is larger in presidential elections than in midterm elections.
+a. For the presidential elections in the dataset, calculate the means of (i) ANES_turnout, (ii)
+VEP_turnout, and (ii) turnout_bias. Then, provide a substantive interpretation of what each of the averages mean, including the unit of measurement. 
+
+
+
+```{r}
+head(`ANES.(1)`)
+
+
+mean(`ANES.(1)`$ANES_turnout[`ANES.(1)`$presidential==1])
+mean(`ANES.(1)`$Vep_turnout[`ANES.(1)`$presidential==1])
+mean(`ANES.(1)`$turnout_bias[`ANES.(1)`$presidential==1])
+
+
+mean(`ANES.(1)`$ANES_turnout[`ANES.(1)`$presidential==0])
+mean(`ANES.(1)`$Vep_turnout[`ANES.(1)`$presidential==0])
+mean(`ANES.(1)`$turnout_bias[`ANES.(1)`$presidential==0])
+
+
+```
+From the results, the ANES turnout for presidential election after every 4 yrs,  On average is 73%-This means that from the survey, people turn out more for presidential elections.Also the Vep turnout is 55% which means among the voters eligible population, the probability of turnout is 55%(people that have the eligibility to vote) while the turnout bias that is likely to happen in a presidential election on average is 18%. This is true because The presidential election is always one big event to happen:Huge turnout! in a country. hence all hands must be on desk and mobilisation is always massive.
+
+The unit of measurement from the comparison variable(turnout bias) is 18%
+
+
+
+b. Now, for the midterm elections in the dataset, calculate the means of (i) ANES_turnout, (ii)
+VEP_turnout, and (ii) turnout_bias. Then, provide a substantive interpretation of what each of the averages mean, including the unit of measurement.
+```{r}
+head(`ANES.(1)`)
+
+mean(`ANES.(1)`$ANES_turnout[`ANES.(1)`$midterm==1])
+mean(`ANES.(1)`$Vep_turnout[`ANES.(1)`$midterm==1])
+mean(`ANES.(1)`$turnout_bias[`ANES.(1)`$midterm==1])
+
+
+mean(`ANES.(1)`$ANES_turnout[`ANES.(1)`$midterm==0])
+mean(`ANES.(1)`$Vep_turnout[`ANES.(1)`$midterm==0])
+mean(`ANES.(1)`$turnout_bias[`ANES.(1)`$midterm==0])
+
+```
+Averagely,From the midterm results, the ANES turnout is 55% which is true because the turnout for presidential elections is much higher as people sometimes don't take mid term elections as serious as the presidential one. the Vep turnout is 39% and the turnout bias is 15% which is quite expected. 
+
+The measurement unit is 15%
+
+
+
+
+c. What can you conclude by comparing the results from question 4a to those from question 4b
+
+```{r}
+
+```
+On average, the result shows that the turnout for Presidential elections is more than midterm.
+Conclusively, the claim that turnout for Presidential election is massive than midterm is accurate!
