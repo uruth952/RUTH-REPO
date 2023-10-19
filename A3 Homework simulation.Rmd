@@ -1,0 +1,213 @@
+---
+title: "B3 HOME WORK"
+author: "UZOKA"
+date: "2023-10-18"
+output: pdf_document
+---
+QTN 22- A certain family has 6 children, consisting of 3 boys and 3 girls. Assuming that all birth orders are equally likely, what is the probability that the 3 eldest children are the 3 girls? 
+
+ANS-
+
+```{r }
+
+sims <- 100000
+
+children <-  c("girl","girl","girl","boy","boy","boy")
+events <- 0
+
+for (i in 1:sims) {
+  probs <- sample(x=children, size=6, replace=FALSE)
+  if (probs[1]=="girl" & probs[2]=="girl" & probs[3]=="girl"){
+  events <- events + 1
+   }
+}
+outcome <- events/sims
+outcome
+
+```
+From the simulation, the probability that 3 eldest are the 3 girls is =0.05 or 50%.
+
+QTN 34 -A group of 30 dice are thrown. What is the probability that 5 of each of the values 1, 2, 3, 4, 5, 6 appear? 
+
+Ans-
+```{r }
+
+sims <- 100000
+grp_of_dice <- c(1,2,3,4,5,6)
+
+result <- 0
+
+for (i in 1:sims) {
+    val <- sample(x=grp_of_dice, size=30, replace=TRUE)
+    valcount <- rep(0, 6)  # set all range to keep traces of each of the value count. 
+    for (v in 1:6) {
+        c <- sum(val == v)
+        valcount[v] <- c
+    }
+    
+    if (all(valcount == 5)) {
+        result <- result + 1
+    }
+}
+
+outcome <- result / sims
+outcome
+
+
+```
+
+From the simulation,The probability of having 5 of each of the values in a roll of 30 dice is 0.0042%
+
+Qtn 2 A woman is pregnant with twin boys. Twins may be either identical or fraternal (non-identical). In general, 1/3 of twins born are identical. Obviously, identical twins must be of the same sex; fraternal twins may or may not be. Assume that identical twins are equally likely to be both boys or both girls, while for fraternal twins all possibilities are equally likely. Given the above information, what is the probability that the woman’s twins are identical?
+
+Ans-
+```{r }
+sims <- 100000
+id_frat <- c("fraternal", "fraternal", "identical")
+frat_mix <- c("BB", "BG", "GB", "GG")
+id_mix <- c("BB", "GG")
+
+id_comp <- 0
+comp <- 0
+
+for (i in 1:sims) {
+  id_frat_i <- sample(id_frat, 1)
+  if (id_frat_i == "fraternal") {
+    gender_mix <- sample(frat_mix, 1)
+  } else {
+    gender_mix <- sample(id_mix, 1)
+  }
+  if (id_frat_i == "identical" && gender_mix == "BB") {
+    id_comp <- id_comp + 1
+  }
+  if (gender_mix == "BB") {
+    comp <- comp + 1
+  }
+}
+
+outcome <- id_comp / comp
+outcome
+
+
+```
+From the simulation,the probability that the woman’s twins are identical is 0.50 0r 50%. 
+
+32. Consider four nonstandard dice (the Efron dice), whose sides are labeled as follows (the 6 sides on each die are equally likely). A: 4, 4, 4, 4, 0, 0 B: 3, 3, 3, 3, 3, 3 C: 6, 6, 2, 2, 2, 2 D: 5, 5, 5, 1, 1, 1 These four dice are each rolled once. Let A be the result for die A, B be the result for die B, etc. (a) Find P(A>B), P(B>C), P(C>D), and P(D>A). (b) Is the event A>B independent of the event B>C? Is the event B>C independent of the event C>D? 
+
+Ans-
+
+```{r}
+sims <- 100000
+
+# Definition of the dice values
+a <- c(4, 4, 4, 4, 0, 0)
+b <- c(3, 3, 3, 3, 3, 3)
+c <- c(6, 6, 2, 2, 2, 2)
+d <- c(5, 5, 5, 1, 1, 1)
+
+atotal <- 0
+btotal <- 0
+ctotal <- 0
+dtotal <- 0
+
+aatotal <- 0
+abtotal <- 0
+
+# Calculate for each roll
+for (i in 1:sims) {
+  a_l <- sample(x = a, size = 1, replace = TRUE)
+  b_l <- sample(x = b, size = 1, replace = TRUE)
+  c_l <- sample(x = c, size = 1, replace = TRUE)
+  d_l <- sample(x = d, size = 1, replace = TRUE)
+
+  # Step A
+  if (a_l > b_l) {
+    atotal <- atotal + 1
+  }
+  if (b_l > c_l) {
+    btotal <- btotal + 1
+  }
+  if (c_l > d_l) {
+    ctotal <- ctotal + 1
+  }
+  if (d_l > a_l) {
+    dtotal <- dtotal + 1
+  }
+
+  # Step B
+  if (b_l > c_l) {
+    if (a_l > b_l) {
+      aatotal <- aatotal + 1
+    }
+  }
+  if (b_l > c_l) {
+    if (c_l > d_l) {
+      abtotal <- abtotal + 1
+    }
+  }
+}
+
+# Report counts
+prob_a = atotal / sims
+prob_b = btotal / sims
+prob_c = ctotal / sims
+prob_d = dtotal / sims
+prob_a_and_b = aatotal / sims
+prob_b_and_c = abtotal / sims
+
+# Results
+cat("Probability A > B:", prob_a, "\n")
+cat("Probability B > C:", prob_b, "\n")
+cat("Probability C > D:", prob_c, "\n")
+cat("Probability D > A:", prob_d, "\n")
+cat("Probability (B > C) and (A > B):", prob_a_and_b, "\n")
+cat("Probability (B > C) and (C > D):", prob_b_and_c, "\n")
+
+
+```
+a) Find P(A>B), P(B>C), P(C>D), and P(D>A);From the simulation above-A>B = 0.66728,B>C = 0.66637, C>D = 0.66656, D>A = 0.66611.
+
+From the results, A>B is independent of the event B>C; In order words, The occurrence of A>B does not affect B>C.
+
+from the simulation,B>C is dependent of C>D as B>C with 0.66637 seems lower than C>D-0.66656.
+
+
+
+
+Qtn 38) Consider the following 7-door version of the Monty Hall problem. There are 7 doors, behind one of which there is a car (which you want), and behind the rest of which there are goats (which you don’t want). Initially, all possibilities are equally likely for where the car is. You choose a door. Monty Hall then opens 3 goat doors, and offers you the option of switching to any of the remaining 3 doors. Assume that Monty Hall knows which door has the car, will always open 3 goat doors and offer the option of switching, and that Monty chooses with equal probabilities from all his choices of which goat doors to open. Should you switch? What is your probability of success if you switch to one of the remaining 3 doors?        
+
+
+Ans-
+
+```{r}
+sims <- 100000
+all_doors <- c("goat", "goat", "goat", "goat", "car", "goat", "goat")
+probs_switch <- probs_zeroswitch <- rep(NA, sims)
+
+for (i in 1:sims) {
+  # Random pick
+  initial_door <- sample(1:7, size = 1)
+  probs_zeroswitch[i] <- all_doors[initial_door]
+  remaining_doors <- all_doors[-initial_door]
+  
+  # Monty choose from  doors with goat
+  if (all_doors[initial_door] == "car") {
+    monty <- sample(1:6, size = 3)
+  } else {
+    car_placement <- which(remaining_doors == "car")
+    monty <- sample(setdiff(1:6, car_placement), 3)
+  }
+  remaining_doors_stage2 <- remaining_doors[-monty]
+  probs_switch[i] <- sample(remaining_doors_stage2, 1)
+}
+
+probs_zeroswitch <- mean(probs_zeroswitch == "car")
+probs_switch <- mean(probs_switch == "car")
+
+cat("Probability of winning without switching:", probs_zeroswitch, "\n")
+cat("Probability of winning by switching:", probs_switch, "\n")
+
+
+```
+The probability of winning should you switch is 0.285 against not switching is 0.14%
+
