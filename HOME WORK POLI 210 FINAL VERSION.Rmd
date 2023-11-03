@@ -1,0 +1,351 @@
+---
+title: "POLI 210 HOMEWORK A5"
+author: "UZOKA"
+date: "2023-11-03"
+output: pdf_document
+---
+1. Below is code for simulating a coin flip. Try to understand what it does by running it, and then running the command `coin_flip()` in the console 10 times.
+```{r}
+set.seed(36850) # set random seed so that you get the same output everytime even though it's "random"
+
+sample_space_coin <- c("H", "T")
+event_probs_coin <- c(0.5, 0.5)
+
+
+coin_flip <- function(){
+  sample(
+    size = 1,
+    x = sample_space_coin,
+    prob = event_probs_coin,
+    replace = TRUE
+  )
+}
+
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+ coin_flip()
+
+
+```
+
+Copy and past the output from running `coin_flip()` 10 times in the console here:
+###Outcome-
+  coin_flip()
+"H"
+  coin_flip()
+ "T"
+  coin_flip()
+ "T"
+  coin_flip()
+"H"
+  coin_flip()
+"T"
+  coin_flip()
+ "H"
+  coin_flip()
+ "T"
+  coin_flip()
+ "T"
+  coin_flip()
+"T"
+  coin_flip()
+"T"
+  coin_flip()
+ "H"
+ 
+  coin_flip()
+ "T"
+ 
+ 2. Write a function `X_coin()` that takes the result of `coin_flip()` as an argument (a string, "H" or "T"), and returns it into a 1 for "H" and 0 for "T". I've already started the code for you.
+
+```{r}
+set.seed(36850)
+flip1 <- coin_flip()
+flip2 <- coin_flip()
+flip3 <- coin_flip()
+flip4 <- coin_flip()
+
+# Example flips, they will always be the same because I set a random seed.
+flip1 # H
+flip2 # T
+flip3 # T
+flip4 # H
+
+# Function that acts like a random variable.
+# returns 1 if flip == "H" and 0 otherwise.
+X_coin <- function(flip){
+  ifelse(flip =="H", 1, 0)
+}
+
+# The code below should return a 1 for flip1 and flip4 and 0 for flip2 and flip3
+X_coin(flip1)
+X_coin(flip2)
+X_coin(flip3)
+X_coin(flip4)
+
+```
+
+3.Treating `X_coin()` like a random variable describe it:
+  a. What is the probability of 1?
+  b. What is the probability of 0?
+  c. What is the expectation of `X_coin()`?
+  d. What is the variance of `X_coin()`?
+  
+  
+*ANSWER-*
+a)The probability of 1 is 0.5 or 50%-i.e Given that when we ran the function "coin_flip(), the outcome was "H" = 1 or "T" = 0 with a probability of "0.5"
+  
+b)The probability of 0 is = 0.5, Again, from the 'coin_flip()' function ran, the outcome of 'T' was = 0 of which the probability is = 0.5 or 50%.
+
+c)The expectation of 'X_coin()' is = 0.5. Given that probability of 1 given'H' is = 0.5 and probability of 0 given 'T' is = 0.5. Therefore;"X_coin()"=(1 * 0.5) + (0 * 0.5)=0.5 + 0 =0.5.
+
+d)The variance of 'X_coin()' = 0.25 or 25%;that is;using the variance of probability formula;
+
+0.5*1^2 + 0.5*0^2 - 0.5^2 =0.25.
+
+
+ 
+4. Define a new function `biased_coin_flip()` that acts like `coin_flip()` except it returns "H" 70 percent of the time.
+
+```{r }
+set.seed(36850)
+
+biased_coin_flip <- function(){
+  sample(
+    size = 1,
+    x = sample_space_coin,
+    prob =c(H = 0.7, T = 0.3),
+    replace = TRUE
+)
+}
+
+```
+
+5. Define a new random variable `X_biased_coin()` that returns a 1 if flip is "H" and returns 0 if flip is "T"
+
+```{r }
+set.seed(36850)
+sample_space <- c("H", "T")
+
+biased_coin_flip <- function(){
+  sample(
+    size = 1,
+    x = sample_space,
+     prob =c(H = 0.7, T = 0.3),
+    replace = TRUE
+)
+}
+flip1 <- biased_coin_flip()
+flip2 <- biased_coin_flip()
+flip3 <- biased_coin_flip()
+flip4 <- biased_coin_flip()
+
+# Example flips, they will always be the same because I set a random seed.
+flip1 
+flip2 
+flip3 
+flip4 
+
+X_biased_coin <- function(flip){
+  outcome<-ifelse(flip == "H", 1, ifelse(flip =="T", 0, NA)) 
+  return(outcome)
+}
+
+# Use this to test out your code.
+X_biased_coin(flip1)
+X_biased_coin(flip2)
+X_biased_coin(flip3)
+X_biased_coin(flip4)
+
+```
+Treating `X_biased_coin()` like a random variable describe it:
+  a. What is the probability of 1? .7
+  b. What is the probability of 0? .3
+  
+*ANSWER:*
+a) This means that the X_biased_coin() function has been designed to yield the result "H" with a probability of 0.7, indicating a 70% likelihood of obtaining "H" when a coin is flipped.
+
+b) This means that the  X_biased_coin() function is programmed to produce the result "T" with a probability of 0.3, signifying a 30% chance of getting "T" when a coin is flipped.
+
+5. Using math, calculate:
+  a. The expectation of `X_coin()`
+  b. The expectation of `X_biased_coin()`
+  c. The expectation of `X_coin()` + `X_biased_coin()`
+  
+*ANSWER*
+a) To compute the expectation of 'X_coin()', we consider that "H" has a probability of 0.5, and "T" also has a probability of 0.5. Consequently, the expectation of 'X_coin()' can be calculated as follows: (1 * 0.5) + (0 * 0.5) = 0.5, which is equivalent to 50%
+
+b)To determine the expectation of 'X_biased_coin()', we consider that when the probability is 1, "H" occurs with a 0.7 probability, and when the probability is 0, "T" has a 0.3 probability. Hence, the value of 'X_biased_coin()' is computed as follows: (1 * 0.7) + (0 * 0.3) = 0.7, equivalent to 70%.
+
+c)The combined expectation of X_coin() and X_biased_coin() is found by summing their individual expectations. Thus, it is calculated as 0.5 (from X_coin()) + 0.7 (from X_biased_coin()), resulting in a total expectation of 1.2 or 120%.
+  
+6. Use simulation to estimate:
+  a. The expectation of `X_coin()`
+  b. The expectation of `X_biased_coin()`
+  c. The expectation of `X_coin()` + `X_biased_coin()`
+  
+I've filled in some code for your below
+
+```{r }
+set.seed(36850)
+
+nsims <- 100000
+
+# vectors where you can store the results of simulation for a, b, and c
+X_coin_sims <- vector(mode = 'numeric', length = nsims)
+X_biased_coin_sims <- vector(mode = 'numeric', length = nsims)
+unbiased_plus_biased_coin_sims <- vector(mode = 'numeric', length = nsims)
+
+# Code for part a: 
+for (i in 1:nsims) {
+  sim_flip_i <- coin_flip()  
+  X_coin_sims[i] <- X_coin(sim_flip_i)
+}
+# Code for part b: 
+for (i in 1:nsims) {
+  sim_biasedflip_i <- biased_coin_flip()  
+  X_biased_coin_sims[i] <- X_biased_coin(sim_biasedflip_i)
+}
+
+# Code for part c: simulate X_coin + X_biased_coin
+for (i in 1:nsims) {
+  sim_flip_i <- coin_flip()  
+  sim_biasedflip_i <- biased_coin_flip()  
+  X_coin_sims[i] <- X_coin(sim_flip_i)
+  X_biased_coin_sims[i] <- X_biased_coin(sim_biasedflip_i)
+  unbiased_plus_biased_coin_sims[i] <- X_coin_sims[i] + X_biased_coin_sims[i]
+}
+head(X_coin_sims)
+
+# Calculate the expectation of the simulations using mean()
+Xpect_x_coin <- mean(X_coin_sims)
+Xpect_x_biased_coin <- mean(X_biased_coin_sims)
+Xpect_x_coin_plus_x_biased_coin <- mean(unbiased_plus_biased_coin_sims)
+
+# for a,b, c
+Xpect_x_coin
+Xpect_x_biased_coin
+Xpect_x_coin_plus_x_biased_coin
+```
+Compare your simulated results to the result you got via math in question 5. They should be very similar. If they're not, try to figure out why and fix it.
+The results are the same for 5a,b,c 
+##The results are similar;
+0, 0,1,0,0,1.
+ai)50%
+bi)70%
+ci)25%
+
+7. Imagine an experiment similar to the one we discussed. Students can use a drug, Getana. We are interested in studying the effect of Getana on student's GPA. In the code below, I've defined:
+  a. A student index 1-6, it just assignes each student a number.
+  b. A potential outcome for each student under treatement, Y1, and control, Y0. Note that the potential outcomes are the same, indicating that there is 0 effect
+
+```{r }
+student_index <- 1:6
+Y1 <- c(4, 4, 3, 2, 1,1)
+Y0 <- Y1
+```
+Now, simulate what happens if we randomly sample 1 student to be in the Treatment group (so we see their GPA under Y1), and we sample a different student to be in Control (so we see their GPA under Y0). What will the average difference in GPA's be between the Treatment subject and Control subject? Compare the results to what you get if you simply subtract the mean of Y0 from the mean of Y1.
+
+```{r }
+student_index <- 1:6
+Y1 <- c(4, 4, 3, 2, 1, 1)
+Y0 <- Y1
+set.seed(36850)
+
+nsims <- 100000
+
+gpa_treat_minus_control_sims <- vector(mode = "numeric", length = nsims)
+
+for (i in 1:nsims) {
+  treated_subj_index <- sample(student_index, size = 1)
+  control_subj_index <- sample(student_index[-treated_subj_index], size = 1)
+  observed_treatement_GPA <- Y1[treated_subj_index]
+  observed_control_GPA <- Y0[control_subj_index]
+    
+  gpa_treat_minus_control_sims[i] <- observed_treatement_GPA - observed_control_GPA
+}
+
+# Calculate the average of gpa_treat_minus_control_sims
+observed_mean_dif <- mean(gpa_treat_minus_control_sims)
+
+#####
+mean_dif <- mean(Y1 - Y0)
+
+observed_mean_dif
+mean_dif
+```
+a)The average difference in GPA's be between the Treatment subject and Control subject is .0145.
+
+b) the result is zero
+
+7. Create a histogram of `gpa_treat_minus_control_sims` using ggplot. Make it look as good as you can, with proper axis labels.
+
+```{r }
+set.seed(36850)
+nsims <- 100000
+library(tidyverse)
+data = data.frame(x = gpa_treat_minus_control_sims)
+
+ggplot(data, aes(x =gpa_treat_minus_control_sims)) +
+  geom_histogram(fill = 'steelblue', colour = 'red', binwidth =0.5)+
+  labs(
+    x = "Grade point Average(treatment minus control group)",
+    y = 'Frequency',
+ title = 'Histogram of Grade Point Average Distribution'
+)
+```
+8. Repeat questions 7 and 7 above for the new potential outcomes defined below. Compare the results to what you get if you simply subtract the mean of Y0 from the mean of Y1.
+```{r }
+set.seed(36850)
+student_index <- 1:6
+Y1 <- c(4, 4, 3, 3, 4, 1)
+
+Y0 <- c(2, 1, 4, 2, 1, 1)
+
+set.seed(36850)
+nsims <- 100000 ##Workings
+gpa_treat_minus_control_sims <- vector(mode = "numeric",length = nsims)
+
+for(i in 1:nsims){
+  
+  treated_subj_index <- sample(student_index, size = 1)
+  control_subj_index <- sample(student_index[-treated_subj_index], size = 1)
+  
+  observed_treatment_GPA <- Y1[treated_subj_index]
+  observed_control_GPA <- Y0[control_subj_index]
+    
+gpa_treat_minus_control_sims[i] <- observed_treatment_GPA - observed_control_GPA
+}  
+#Calculate the average of gpa_treat_minus_control_sims
+mean_dif <- mean(gpa_treat_minus_control_sims)
+mean_diff <- mean(Y1 -Y0)
+
+
+mean_dif
+mean_diff
+```
+On average, the test score for treatment group shows a 1.33 increase.
+
+```{r }
+set.seed(36850)
+nsims <- 100000
+library(tidyverse)
+data = data.frame(Difference_Grade_point_average = gpa_treat_minus_control_sims)
+
+ggplot(data, aes(x = Difference_Grade_point_average)) +
+  geom_histogram(fill = 'steelblue', colour = 'red', binwidth =0.5)+
+  labs(
+    x = "Difference grade point average in(treatment minus control group)",
+    y = 'Frequency',
+ title = 'Histogram of observed Grade Point Average Differences'
+)
+```
