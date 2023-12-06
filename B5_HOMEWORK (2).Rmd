@@ -1,0 +1,302 @@
+---
+title: "B5 homework"
+author: "UZOKA"
+date: "2023-12-04"
+output: pdf_document
+---
+```{r}
+library(readr)
+setwd("/Users/HP/Downloads/")
+data <- read_csv("elite.ug_1.csv")
+head(data)
+
+```
+
+```{r }
+# takes a numeric vector and returns a standard error of the mean
+sem <- function(x){
+  if(!is.numeric(x)){
+    "Error: x needs to be a numeric variable"
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sd_hat <- sd(x_complete)
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+sem(data$ult.min)
+```
+
+```{r }
+library(dplyr)
+
+sem <- function(x){
+  if(!is.numeric(x)){
+    return(NA)  # Return NA if x is not numeric
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+
+head(Graph1)
+
+
+
+```
+
+```{r }
+sem <- function(x){
+  if(!is.numeric(x)){
+    
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sd_hat <- sd(x_complete)
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+head(Graph1)
+
+# Plotting
+GraphA <- ggplot(Graph1, aes(x = type, y = prse_mean, ymin = prse_mean - prse_sem, ymax = prse_mean + prse_sem, fill =type)) +
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_errorbar(aes(ymin = prse_mean - prse_sem, ymax = prse_mean + prse_sem), colour = "black", width = 0.1) +
+  labs(x = "Student Type", y = "Mean", title = "Ultimatum Bargaining Behavior - Propose") +
+  theme(legend.position = "none")
+
+GraphA
+
+
+```
+
+
+```{r }
+sem <- function(x){
+  if(!is.numeric(x)){
+    
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sd_hat <- sd(x_complete)
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+head(Graph1)
+
+# The Plotting
+GraphB <- ggplot(Graph1, aes(x = type, y =dmd_mean, ymin = dmd_mean - dmd_sem, ymax = dmd_mean + dmd_sem, fill =type)) +
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_errorbar(aes(ymin = dmd_mean - dmd_sem, ymax = dmd_mean + dmd_sem), colour = "black", width = 0.1) +
+  labs(x = "Student Type", y = "Mean", title = "Ultimatum Bargaining Behavior - demand") +
+  theme(legend.position = "none")
+
+GraphB
+
+
+```
+
+
+
+
+
+
+```{r }
+sem <- function(x){
+  if(!is.numeric(x)){
+    
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sd_hat <- sd(x_complete)
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+head(Graph1)
+
+# The Plotting
+Graph2 <- ggplot(Graph1, aes(x = type, y =pt_mean, ymin = pt_mean - pt_sem, ymax = pt_mean + pt_sem, fill =type)) +
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_errorbar(aes(ymin =  pt_mean - pt_sem, ymax = pt_mean + pt_sem), colour = "black", width = 0.1) +
+  labs(x = "Subject Type", y = "Mean # of patient choices", title = "Mean # of patient choices") +
+  theme(legend.position = "none")
+
+Graph2
+
+
+```
+There seems to be a notable difference in Graph2.
+```{r }
+
+library(dplyr)
+
+sem <- function(x){
+  if(!is.numeric(x)){
+    return(NA)  # Return NA if x is not numeric
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+head(Graph1)
+
+
+
+Graph3 <-elite.ug_1%>%
+group_by(elite,levelk)%>%
+  summarise(
+  n =n()
+)
+Graph3<-Graph3%>%
+  filter(!is.na(levelk))
+
+```
+
+```{r }
+library(dplyr)
+library(ggplot2)
+
+sem <- function(x){
+  if(!is.numeric(x)){
+    return(NA) 
+  }
+  x_complete <- na.omit(x)
+  n <- length(x_complete) 
+  sd_hat <- sd(x_complete) 
+  sem <- sd_hat / sqrt(n)
+  return(sem)
+}
+
+Graph1 <- elite.ug_1 %>%
+  group_by(elite) %>%
+  summarise(
+    prse_mean = mean(ult.propose, na.rm = TRUE),
+    dmd_mean = mean(ult.min, na.rm = TRUE),
+    pt_mean = mean(patience, na.rm = TRUE),
+    prse_sem = sem(ult.propose),
+    dmd_sem = sem(ult.min),
+    pt_sem = sem(patience)
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+head(Graph1)
+
+Graph3 <- elite.ug_1 %>%
+  group_by(elite, levelk) %>%
+  summarise(
+    n = n(),
+    .groups = 'drop' 
+  ) %>%
+  filter(!is.na(levelk))
+
+Graph3A <- aggregate(Graph3$n, list(Graph3$elite), FUN = sum)
+Graph3 <- Graph3 %>%
+  mutate(
+    total = ifelse(elite == 0, 132, 95),
+    share = n / total * 100,
+    SEM = sqrt((share / 100) * (1 - share / 100) / total) * 100  
+  ) %>%
+  mutate(type = ifelse(elite == 0, "Undergraduate", "Elite"))
+
+GraphC <- ggplot(Graph3, aes(x = levelk, y = share, fill = type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin = share - SEM, ymax = share + SEM), 
+                width = 0.2, position = position_dodge(0.9)) +
+  labs(x = "Estimated level of strategic reasoning", y = "Proportion of population")
+
+GraphC
+
+```
+
+```{r}
+library(dplyr)
+
+elite.ug_1 <- elite.ug_1 %>%
+  filter(!is.na(ult.min))
+
+mean_elite <- mean(elite.ug_1$ult.min[elite.ug_1$elite == 1])
+mean_ug <- mean(elite.ug_1$ult.min[elite.ug_1$elite == 0])
+
+D_hat <- mean_elite - mean_ug
+
+elite_var <- var(elite.ug_1$ult.min[elite.ug_1$elite == 1])
+ug_var <- var(elite.ug_1$ult.min[elite.ug_1$elite == 0])  
+elite_n <- sum(elite.ug_1$elite == 1)
+ug_n <- sum(elite.ug_1$elite == 0)
+
+se_D_hat <- sqrt(elite_var / elite_n + ug_var / ug_n)
+
+test_statistic <- D_hat / se_D_hat
+test_statistic
+
+
+alpha <- 0.05
+qnorm(1 - alpha / 2)
+
+
+```
+
+The null hypothesis of no difference in MAOs between elite and undergraduate students is rejected,this is  because it indicates a significantly higher averages among elite students. Conversely, with the alternative hypothesis, this  suggests a nonzero difference between the groups.
